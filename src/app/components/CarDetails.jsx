@@ -1,0 +1,102 @@
+import React from 'react';
+import Link from 'next/link';
+import StarRating1 from './StarRating1';
+import StarRating from './StarRating';
+
+const CarDetails = ({
+    car,
+    showRatingForm,
+    hasRated,
+    setShowRatingForm,
+    handleRatingSubmit,
+    rating,
+    setRating,
+    comment,
+    setComment
+}) => {
+    return (
+        <div>
+            <div className="container mx-auto px-[2%] py-[2%] ">
+                <div className="flex justify-between items-center mb-8">
+                    <h2 className="ont-outfit text-[42px] leading-[50px] tracking-[-1.8px] font-semibold text-gray-800 mb-6">The Car Details</h2>
+                    
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <div className="mb-4">
+                            <img src={car.image} alt={car.modele} className="w-full h-80 object-cover rounded-lg shadow-lg" />
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <img
+                                src={car.image2 ? car.image2 : car.image}
+                                alt={car.modele}
+                                className="w-full h-40 object-cover rounded-lg shadow-lg"
+                            />
+                            <img
+                                src={car.image3 ? car.image3 : car.image}
+                                alt={car.modele}
+                                className="w-full h-40 object-cover rounded-lg shadow-lg"
+                            />
+                            <img
+                                src={car.image4 ? car.image4 : car.image}
+                                alt={car.modele}
+                                className="w-full h-40 object-cover rounded-lg shadow-lg"
+                            />
+                        </div>
+                    </div>
+                    <div className="bg-white shadow-md rounded-lg p-8">
+                        <h2 className="text-3xl font-bold mb-2 text-center py-4">{car.marque} {car.modele} {car.anneeFabrication}</h2>
+                        <p className="text-xl text-gray-700 mb-4 text-center">Daily rate</p>
+                        <p className="text-[50px] font-bold text-center">${car.prixParJ}</p>
+                        <p className="mb-4">{car.caracteristiques}</p>
+                        <h3 className="text-xl font-semibold mb-2">Specifications</h3>
+                        <ul className="mb-4 divide-y divide-gray-300">
+                            <li className="flex justify-between py-2"><span>Seats</span><span className='font-bold'>{car.NbPlaces} seats</span></li>
+                            <li className="flex justify-between py-2"><span>Doors</span><span className='font-bold'>{car.NbPortes} doors</span></li>
+                            <li className="flex justify-between py-2"><span>Mileage</span><span className='font-bold'>{car.kilometrage} km</span></li>
+                            <li className="flex justify-between py-2"><span>Fuel Type</span><span className='font-bold'>{car.typeCarburant}</span></li>
+                            <li className="flex justify-between py-2"><span>Engine</span><span className='font-bold'>{car.kilometrage}</span></li>
+                            <li className="flex justify-between py-2"><span>Year</span><span className='font-bold '>{car.anneeFabrication}</span></li>
+                            <li className="flex justify-between py-2"><span>Transmission</span><span className='font-bold '>{car.typeTransmission}</span></li>
+                            <li className="flex justify-between py-2"><span>Category</span><span className='font-bold'>{car.categorie}</span></li>
+                            <li className="flex justify-between py-2"><span>Availability</span><span className='font-bold'>{car.disponibilite}</span></li>
+                            <li className="flex justify-between py-2"><span>AC</span><span className='font-bold'>{car.climatisation ? 'Yes' : 'No'}</span></li>
+                        </ul>
+                        <h3 className="text-xl font-semibold mb-2">Additional Accessories</h3>
+                        <p className="mb-4">{car.accessoiresOptionSupp}</p>
+                        <h3 className="text-xl font-semibold mb-2">Rental Conditions</h3>
+                        <p className="mb-4">{car.conditionDeLocation}</p>
+                        {car.offrePromotion && (
+                            <div className="mt-4">
+                                <h3 className="text-xl font-semibold mb-2">Promotional Offer</h3>
+                                <p className="mb-4">{car.offrePromotion}</p>
+                            </div>
+                        )}
+                        <div className="mt-4 flex items-center justify-between">
+                            {car.note && (
+                                <div className="mr-4">
+                                    <h3 className="text-xl font-semibold mb-2">Rating</h3>
+                                    <StarRating rating={car.note} />
+                                </div>
+                            )}
+                           
+                        </div>
+
+
+                        <div className="mt-8">
+                            <Link href={`/UpdateCar/${car._id}`}>
+                                <div className="bg-[#1ECB15] text-white text-center px-4 py-2 rounded shadow-md hover:bg-[#17a413] transition cursor-pointer">
+                                update Car
+                                </div>
+                            </Link>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    );
+};
+
+export default CarDetails;
