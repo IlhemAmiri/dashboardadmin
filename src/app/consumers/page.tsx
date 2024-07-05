@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import SideNavbar from '../components/SideNavbar';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 interface User {
   _id: string;
@@ -162,12 +163,13 @@ const AllUsersPage = () => {
                       </td>
                       <td className="py-2 px-4">
                         <Link href={`/updateUser/${client._id}`}>
-                          <button className="bg-blue-500 text-white py-1 px-2 rounded-full hover:bg-blue-600 transition duration-200">
-                            Update
+                          <button className="bg-[#1ECB15] text-white py-1 px-2 rounded-full hover:bg-green-600 transition duration-200">
+                            <FontAwesomeIcon icon={faEdit} />
+
                           </button>
                         </Link>
                         <button onClick={() => handleDelete(client._id)} className="bg-red-500 text-white py-1 px-2 rounded-full hover:bg-red-600 transition duration-200 ml-2">
-                          Delete
+                          <FontAwesomeIcon icon={faTrash} />
                         </button>
                       </td>
                     </tr>

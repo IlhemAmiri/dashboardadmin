@@ -11,6 +11,8 @@ import { BiMessageSquareDots } from 'react-icons/bi';
 import { AiOutlineCar } from 'react-icons/ai';
 import { RiBillLine } from 'react-icons/ri';
 import { BsFillFileTextFill } from 'react-icons/bs';
+import { AiOutlineQuestionCircle } from 'react-icons/ai';
+
 
 function SideNavbar() {
   const router = useRouter();
@@ -38,6 +40,7 @@ function SideNavbar() {
                   <NavItem href="/consumers" icon={<BiMessageSquareDots />} label="Consumers" />
                   <NavItem href="/cars" icon={<AiOutlineCar />} label="Cars" />
                   <NavItem href="/blogs" icon={<BsFillFileTextFill />} label="Blogs" />
+                  <NavItem href="/faq" icon={<AiOutlineQuestionCircle />} label="FAQs" />
                   <NavItem href="/facturation" icon={<RiBillLine />} label="Facturation" />
                 </div>
                 <div className="my-4 w-full">

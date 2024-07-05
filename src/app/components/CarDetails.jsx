@@ -1,7 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import StarRating1 from './StarRating1';
 import StarRating from './StarRating';
+import { useRouter } from 'next/navigation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const CarDetails = ({
     car,
@@ -14,6 +16,22 @@ const CarDetails = ({
     comment,
     setComment
 }) => {
+    const router = useRouter();
+    const [error, setError] = React.useState('');
+
+    const handleDelete = async () => {
+        try {
+            await axios.delete(`http://localhost:3001/cars/${car._id}`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            router.push('/cars'); // Redirect to cars page after deletion
+        } catch (err) {
+            setError('Failed to delete car');
+        }
+    };
+
     return (
         <div>
             <div className="container mx-auto px-[2%] py-[2%] ">
@@ -83,13 +101,18 @@ const CarDetails = ({
                         </div>
 
 
-                        <div className="mt-8">
+                        <div className="mt-8 flex space-x-4">
                             <Link href={`/UpdateCar/${car._id}`}>
                                 <div className="bg-[#1ECB15] text-white text-center px-4 py-2 rounded shadow-md hover:bg-[#17a413] transition cursor-pointer">
-                                update Car
+                                    <FontAwesomeIcon icon={faEdit} />
                                 </div>
                             </Link>
-                            
+                            <button
+                                onClick={handleDelete}
+                                className="bg-red-500 text-white text-center px-4 py-2 rounded shadow-md hover:bg-red-700 transition cursor-pointer"
+                            >
+                                <FontAwesomeIcon icon={faTrash} />
+                            </button>
                         </div>
                     </div>
                 </div>

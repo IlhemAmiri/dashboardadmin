@@ -6,6 +6,8 @@ import { motion } from 'framer-motion';
 import { InView } from 'react-intersection-observer';
 import SideNavbar from '../../components/SideNavbar';
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
 const BlogDetails = () => {
@@ -35,6 +37,19 @@ const BlogDetails = () => {
 
         fetchBlog();
     }, [blogId]);
+    const handleDelete = async () => {
+        try {
+            await axios.delete(`http://localhost:3001/blogs/${blogId}`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            router.push('/blogs');  // Redirect to blogs page after deletion
+        } catch (err) {
+            setError('Failed to delete blog');
+        }
+    };
+
 
     if (loading) {
         return <div>Loading...</div>;
@@ -64,11 +79,24 @@ const BlogDetails = () => {
                         >
                             {blog.title}
                         </motion.h1>
-                        <Link href={`/updateBlog/${blog._id}`}>
-                            <button className="bg-[#1ECB15] text-white py-2 px-4 rounded-full hover:bg-green-600 transition duration-200 mt-4 md:mt-0">
-                                Update Blog
-                            </button>
-                        </Link>
+
+                        <div className="flex flex-col md:flex-row justify-center md:justify-start space-y-4 md:space-y-0 md:space-x-4">
+                            
+                            <Link href={`/updateBlog/${blog._id}`}>
+                                <button className="bg-[#1ECB15] text-white py-2 px-4 rounded-full hover:bg-green-600 transition duration-200">
+                                    <FontAwesomeIcon icon={faEdit} />
+                                </button>
+                            </Link>
+                            {isAuth && (
+                                <button
+                                    onClick={handleDelete}
+                                    className="bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-700 transition duration-200"
+                                >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                </button>
+                            )}
+                        </div>
+
                     </div>
 
                     <motion.img
@@ -103,6 +131,7 @@ const BlogDetails = () => {
                         </InView>
                     ))}
                 </div>
+
             </div>
         </div>
     );
