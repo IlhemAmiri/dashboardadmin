@@ -4,6 +4,7 @@ import StarRating from './StarRating';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 const CarDetails = ({
     car,
@@ -21,13 +22,15 @@ const CarDetails = ({
 
     const handleDelete = async () => {
         try {
-            await axios.delete(`http://localhost:3001/cars/${car._id}`, {
+            const response = await axios.delete(`http://localhost:3001/cars/${car._id}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
-            router.push('/cars'); // Redirect to cars page after deletion
+            console.log('Delete response:', response);
+            router.push('/cars'); 
         } catch (err) {
+            console.error('Delete error:', err);
             setError('Failed to delete car');
         }
     };

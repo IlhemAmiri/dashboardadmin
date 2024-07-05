@@ -105,7 +105,7 @@ const UpdateCarPage = () => {
             if (!response.ok) {
                 throw new Error('Failed to update car');
             }
-            router.push('/cars');
+            router.push(`/detailsCar/${carId}`);
         } catch (error) {
             setError('Failed to update car');
         }
