@@ -8,7 +8,6 @@ const Page = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isMounted, setIsMounted] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const router = useRouter();
 
@@ -16,8 +15,17 @@ const Page = () => {
     setIsMounted(true);
   }, []);
 
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleLogin = async () => {
     if (!isMounted) return;
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:3001/users/login', {

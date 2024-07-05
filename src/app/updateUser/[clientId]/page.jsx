@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import SideNavbar from '../../components/SideNavbar';
 
@@ -69,12 +68,6 @@ const UpdateUserPage = ({ params }) => {
     setActivePage(page);
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    setIsAuth(false);
-    router.push('/signin');
-  };
-
   const handleFileChange = (e) => {
     setClient({ ...client, image: e.target.files[0] });
   };
@@ -116,7 +109,7 @@ const UpdateUserPage = ({ params }) => {
       if (role === 'admin') {
         router.push('/consumers');
       } else {
-        router.push('/profile');
+        router.push('/');
       }
     } catch (error) {
       setError(error.message);

@@ -11,6 +11,7 @@ const AllReservationPage = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [isAuth, setIsAuth] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const [showPastReservations, setShowPastReservations] = useState(false);
 
     const router = useRouter();
 
@@ -63,8 +64,16 @@ const AllReservationPage = () => {
         return `${date.getDate().toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getFullYear()}`;
     };
 
-    const renderTable = (status) => {
-        const filteredReservations = reservations.filter(res => res.status === status);
+    const renderTable = (status, showActions = true) => {
+        const now = new Date();
+        const filteredReservations = reservations.filter(res => {
+            const pickUpDate = new Date(res.dateDebut);
+            if (showActions) {
+                return res.status === status && pickUpDate >= now;
+            }
+            return pickUpDate < now;
+        });
+
         return (
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white border border-gray-300 rounded-lg">
@@ -78,7 +87,7 @@ const AllReservationPage = () => {
                             <th className="px-4 py-2 text-left">Return Date</th>
                             <th className="px-4 py-2 text-left">Total Cost</th>
                             <th className="px-4 py-2 text-left">With Driver</th>
-                            <th className="px-4 py-2 text-left">Actions</th>
+                            {showActions && <th className="px-4 py-2 text-left">Actions</th>}
                         </tr>
                     </thead>
                     <tbody className="text-sm divide-y divide-gray-200">
@@ -101,11 +110,13 @@ const AllReservationPage = () => {
                                 <td className="px-4 py-2 whitespace-nowrap">{formatDate(reservation.dateFin)}</td>
                                 <td className="px-4 py-2 whitespace-nowrap">{reservation.tarifTotale} $</td>
                                 <td className="px-4 py-2 whitespace-nowrap">{reservation.chauffeur ? 'Yes' : 'No'}</td>
-                                <td className="px-4 py-2 whitespace-nowrap">
-                                    <button onClick={() => updateStatus(reservation._id, 'confirmer')} className="mr-2 bg-[#00B74A] text-white rounded-full text-xs px-2 py-1">Confirm</button>
-                                    <button onClick={() => updateStatus(reservation._id, 'annuler')} className="mr-2 bg-[#F93154] text-white rounded-full text-xs px-2 py-1">Cancel</button>
-                                    <button onClick={() => updateStatus(reservation._id, 'en Attent')} className="bg-[#FFA900] text-white rounded-full text-xs px-2 py-1">Schedule</button>
-                                </td>
+                                {showActions && (
+                                    <td className="px-4 py-2 whitespace-nowrap">
+                                        <button onClick={() => updateStatus(reservation._id, 'confirmer')} className="mr-2 bg-[#00B74A] text-white rounded-full text-xs px-2 py-1">Confirm</button>
+                                        <button onClick={() => updateStatus(reservation._id, 'annuler')} className="mr-2 bg-[#F93154] text-white rounded-full text-xs px-2 py-1">Cancel</button>
+                                        <button onClick={() => updateStatus(reservation._id, 'en Attent')} className="bg-[#FFA900] text-white rounded-full text-xs px-2 py-1">Schedule</button>
+                                    </td>
+                                )}
                             </tr>
                         ))}
                     </tbody>
@@ -136,6 +147,16 @@ const AllReservationPage = () => {
                 {renderTable('confirmer')}
                 <h2 className="text-xl font-semibold mb-4 mt-8">Cancelled Reservations</h2>
                 {renderTable('annuler')}
+                <h2 className="text-xl font-semibold mb-4 mt-8">Past Reservations</h2>
+                <div>
+                    <button
+                        onClick={() => setShowPastReservations(!showPastReservations)}
+                        className="bg-blue-500 text-white py-2 px-4 rounded-full hover:bg-blue-600 transition duration-200"
+                    >
+                        {showPastReservations ? 'Hide' : 'Show'} Past Reservations
+                    </button>
+                    {showPastReservations && renderTable('past', false)}
+                </div>
             </div>
         </div>
     );
