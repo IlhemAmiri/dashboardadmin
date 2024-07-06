@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const StarRating = ({ rating }) => {
     const fullStars = Math.floor(rating);
@@ -60,6 +61,7 @@ const StarRating = ({ rating }) => {
 
 const Note = ({ note }) => {
     const [client, setClient] = useState({ firstName: '', lastName: '' });
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -75,11 +77,33 @@ const Note = ({ note }) => {
                 console.error("There was an error fetching the client data!", error);
             });
     }, [note.idClient]);
+
+
+    const handleDelete = async () => {
+        try {
+            const response = await axios.delete(`http://localhost:3001/notes/${note._id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            console.log('Delete response:', response);
+            window.location.reload();
+        } catch (err) {
+            console.error('Delete error:', err);
+            setError('Failed to delete note');
+        }
+    };
     return (
         <div className="border rounded-lg p-4 mb-4">
             <div className="flex items-center mb-2">
                 <img src={note.idClient.image} alt="Profile" className="rounded-full w-12 h-12 mr-4" />
                 <span className="font-semibold text-[25px]">{note.idClient.nom} {note.idClient.prenom}</span>
+                <button
+                    onClick={handleDelete}
+                    className="ml-auto bg-red-500 text-white text-center px-4 py-2 rounded shadow-md hover:bg-red-700 transition cursor-pointer"
+                >
+                    <FontAwesomeIcon icon={faTrash} />
+                </button>
             </div>
             <StarRating rating={note.note} />
             {note.commentaire && (
@@ -87,6 +111,7 @@ const Note = ({ note }) => {
                     <span className="font-semibold">Commentaire:</span> {note.commentaire}
                 </div>
             )}
+            {error && <div className="text-red-500 mt-2">{error}</div>}
         </div>
     );
 };

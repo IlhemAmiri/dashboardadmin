@@ -87,7 +87,7 @@ const AllReservationPage = () => {
                             <th className="px-4 py-2 text-left">Return Date</th>
                             <th className="px-4 py-2 text-left">Total Cost</th>
                             <th className="px-4 py-2 text-left">With Driver</th>
-                            {showActions && <th className="px-4 py-2 text-left">Actions</th>}
+                            {showActions ? <th className="px-4 py-2 text-left">Actions</th> : <th className="px-4 py-2 text-left">Status</th>}
                         </tr>
                     </thead>
                     <tbody className="text-sm divide-y divide-gray-200">
@@ -110,12 +110,14 @@ const AllReservationPage = () => {
                                 <td className="px-4 py-2 whitespace-nowrap">{formatDate(reservation.dateFin)}</td>
                                 <td className="px-4 py-2 whitespace-nowrap">{reservation.tarifTotale} $</td>
                                 <td className="px-4 py-2 whitespace-nowrap">{reservation.chauffeur ? 'Yes' : 'No'}</td>
-                                {showActions && (
+                                {showActions ? (
                                     <td className="px-4 py-2 whitespace-nowrap">
                                         <button onClick={() => updateStatus(reservation._id, 'confirmer')} className="mr-2 bg-[#00B74A] text-white rounded-full text-xs px-2 py-1">Confirm</button>
                                         <button onClick={() => updateStatus(reservation._id, 'annuler')} className="mr-2 bg-[#F93154] text-white rounded-full text-xs px-2 py-1">Cancel</button>
                                         <button onClick={() => updateStatus(reservation._id, 'en Attent')} className="bg-[#FFA900] text-white rounded-full text-xs px-2 py-1">Schedule</button>
                                     </td>
+                                ) : (
+                                    <td className="px-4 py-2 whitespace-nowrap">{reservation.status}</td>
                                 )}
                             </tr>
                         ))}
