@@ -9,6 +9,7 @@ const UpdateCarPage = () => {
     const [anneeFabrication, setAnneeFabrication] = useState<number>(2020);
     const [typeCarburant, setTypeCarburant] = useState('essence');
     const [typeTransmission, setTypeTransmission] = useState('manuelle');
+    const [vehicleType, setVehicleType] = useState('Car');
     const [categorie, setCategorie] = useState('compacte');
     const [disponibilite, setDisponibilite] = useState('disponible');
     const [kilometrage, setKilometrage] = useState<number>(0);
@@ -57,6 +58,7 @@ const UpdateCarPage = () => {
             setAnneeFabrication(data.anneeFabrication);
             setTypeCarburant(data.typeCarburant);
             setTypeTransmission(data.typeTransmission);
+            setVehicleType(data.vehicleType);
             setCategorie(data.categorie);
             setDisponibilite(data.disponibilite);
             setKilometrage(data.kilometrage);
@@ -80,6 +82,7 @@ const UpdateCarPage = () => {
         formData.append('anneeFabrication', anneeFabrication.toString());
         formData.append('typeCarburant', typeCarburant);
         formData.append('typeTransmission', typeTransmission);
+        formData.append('vehicleType', vehicleType);
         formData.append('categorie', categorie);
         formData.append('disponibilite', disponibilite);
         formData.append('kilometrage', kilometrage.toString());
@@ -186,6 +189,20 @@ const UpdateCarPage = () => {
                             </select>
                         </div>
                         <div className="flex flex-col">
+                            <label className="text-gray-700 font-medium mb-2" htmlFor="vehicleType">Vehicle Type</label>
+                            <select
+                                id="vehicleType"
+                                value={vehicleType}
+                                onChange={(e) => setVehicleType(e.target.value)}
+                                className="w-full h-12 px-4 rounded-lg border border-gray-300 bg-gray-50 text-gray-800 focus:ring focus:ring-indigo-200 focus:border-indigo-500"
+                            >
+                                <option value="Car">Car</option>
+                                <option value="Van">Van</option>
+                                <option value="Minibus">Minibus</option>
+                                <option value="Prestige">Prestige</option>
+                            </select>
+                        </div>
+                        <div className="flex flex-col">
                             <label className="text-gray-700 font-medium mb-2" htmlFor="category">Category</label>
                             <select
                                 id="category"
@@ -193,11 +210,17 @@ const UpdateCarPage = () => {
                                 onChange={(e) => setCategorie(e.target.value)}
                                 className="w-full h-12 px-4 rounded-lg border border-gray-300 bg-gray-50 text-gray-800 focus:ring focus:ring-indigo-200 focus:border-indigo-500"
                             >
-                                <option value="compacte">Compact</option>
-                                <option value="berline">Sedan</option>
-                                <option value="suv">SUV</option>
-                                <option value="camion">Truck</option>
-                                <option value="fourgonette">Van</option>
+                                 <option value="Compact">Compact</option>
+                                <option value="Sedan">Sedan</option>
+                                <option value="SUV">SUV</option>
+                                <option value="Minivan">Minivan</option>
+                                <option value="Convertible">Convertible</option>
+                                <option value="Coupe">Coupe</option>
+                                <option value="Exotic Cars">Exotic Cars</option>
+                                <option value="Hatchback">Hatchback</option>
+                                <option value="Truck">Truck</option>
+                                <option value="Sports Car">Sports Car</option>
+                                <option value="Station Wagon">Station Wagon</option>
                             </select>
                         </div>
                         <div className="flex flex-col">

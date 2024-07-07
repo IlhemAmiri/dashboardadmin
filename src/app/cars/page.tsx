@@ -28,9 +28,19 @@ const Page = () => {
     const [itemsPerPage] = useState(12);
     const [totalItems, setTotalItems] = useState(0);
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const router = useRouter();
 
-
+    useEffect(() => {
+        setIsMounted(true);
+        const role = localStorage.getItem('role');
+        setIsAdmin(role === 'admin');
+        if (role !== 'admin') {
+            router.push('/');
+        }
+    }, [router]);
+    
     useEffect(() => {
         const fetchFavourites = async () => {
             const clientId = localStorage.getItem('userId');
