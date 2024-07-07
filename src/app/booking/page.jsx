@@ -139,9 +139,6 @@ const AllReservationPage = () => {
                     <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">
                         Booking
                     </h2>
-                    <button className="bg-[#1ECB15] text-white py-2 px-4 rounded-full hover:bg-green-600 transition duration-200">
-                        Add
-                    </button>
                 </div>
                 <h2 className="text-xl font-semibold mb-4">Scheduled Reservations</h2>
                 {renderTable('en Attent')}
