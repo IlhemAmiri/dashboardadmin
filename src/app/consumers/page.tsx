@@ -125,9 +125,11 @@ const AllUsersPage = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0">
             <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">Customers</h2>
+            <Link href={'/addConsumer'}>
             <button className="bg-[#1ECB15] text-white py-2 px-4 rounded-full hover:bg-green-600 transition duration-200">
               Add Customer
             </button>
+            </Link>
           </div>
           <section className="mb-12">
             <h3 className="text-2xl font-semibold mb-4 text-gray-700">Active Clients</h3>

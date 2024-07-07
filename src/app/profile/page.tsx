@@ -57,38 +57,36 @@ const ProfilePage = () => {
     }
 
     return (
-        <div className="flex bg-white min-h-screen">
+        <div className="flex bg-gray-100 min-h-screen">
             <SideNavbar />
             <div className="flex-1 ml-0 md:ml-60 py-8 px-4 transition-all duration-300">
-                <div className="container mx-auto py-8 px-4 flex flex-col items-center">
-                    <h2 className="text-2xl font-semibold my-8">Admin Profiles</h2>
+                <div className="container mx-auto py-8 px-4">
+                    <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">Admin Profiles</h2>
                     {admins.map(admin => (
-                        <div key={admin._id} className="flex flex-col md:flex-row items-center mt-16 mb-8 w-full max-w-3xl">
+                        <div key={admin._id} className="flex flex-col md:flex-row items-center bg-transparent py-8 mb-12">
                             <div className="w-full md:w-1/3 flex justify-center mb-4 md:mb-0">
                                 {admin.image ? (
-                                    <img src={admin.image} alt="Admin" className="w-48 h-48 rounded-full object-cover" />
+                                    <img src={admin.image} alt="Admin" className="w-48 h-48 rounded-full object-cover border-4 border-gray-300" />
                                 ) : (
-                                    <div className="w-48 h-48 rounded-full bg-gray-200 flex items-center justify-center">
+                                    <div className="w-48 h-48 rounded-full bg-gray-200 flex items-center justify-center border-4 border-gray-300">
                                         <img src='/images/avatar.png' alt="No Image" className="w-32 h-32 rounded-full" />
                                     </div>
                                 )}
                             </div>
                             <div className="w-full md:w-2/3 flex flex-col items-center md:items-start pl-8">
-                                <h3 className="text-3xl font-bold mb-2">Hello {admin.nom} {admin.prenom}</h3>
-                                <p className="text-gray-600 mb-4">A Bit About Me</p>
-                                <p className="text-gray-600 mb-4">{admin.email}</p>
-                                <p className="text-gray-600 mb-4">{admin.role}</p>
-                                <div className="flex gap-4">
-                                    <button className="bg-yellow-500 text-white py-2 px-4 rounded-full">Resume</button>
-                                    <button className="bg-red-500 text-white py-2 px-4 rounded-full">Projects</button>
-                                    <button className="bg-blue-500 text-white py-2 px-4 rounded-full">Contact</button>
-                                </div>
+                                <h3 className="text-3xl font-bold text-gray-800 mb-2">{admin.nom} {admin.prenom}</h3>
+                                <p className="text-gray-600 mb-2"><strong>Email:</strong> {admin.email}</p>
+                                <p className="text-gray-600 mb-2"><strong>Role:</strong> {admin.role}</p>
+                                <p className="text-gray-600 mb-4">"Dedicated to optimizing our car rental services and ensuring customer satisfaction."</p>
+                                <p className="text-gray-600 mb-4">"Oversees the smooth operation of the car rental process, from booking to return."</p>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
         </div>
+
+
     );
 };
 

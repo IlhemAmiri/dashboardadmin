@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import SideNavbar from '../components/SideNavbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileInvoiceDollar } from '@fortawesome/free-solid-svg-icons';
 
 const AllReservationPage = () => {
     const [reservations, setReservations] = useState([]);
@@ -82,6 +84,7 @@ const AllReservationPage = () => {
                                     <th className="px-4 py-2">End Date</th>
                                     <th className="px-4 py-2">Total Fare</th>
                                     <th className="px-4 py-2">Chauffeur</th>
+                                    <th className="px-4 py-2">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,6 +106,12 @@ const AllReservationPage = () => {
                                         <td className="border px-4 py-2">{formatDate(reservation.dateFin)}</td>
                                         <td className="border px-4 py-2">{reservation.tarifTotale} $</td>
                                         <td className="border px-4 py-2">{reservation.chauffeur ? 'Yes' : 'No'}</td>
+                                        <td className="border px-4 py-2">
+                                            <Link href={`/fich/${reservation._id}`}>
+                                                <button className="text-green-500 rounded">
+                                                <FontAwesomeIcon icon={faFileInvoiceDollar} />                                                </button>
+                                            </Link>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
