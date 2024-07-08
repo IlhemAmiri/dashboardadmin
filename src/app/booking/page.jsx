@@ -111,11 +111,15 @@ const AllReservationPage = () => {
                                 <td className="px-4 py-2 whitespace-nowrap">{reservation.tarifTotale} $</td>
                                 <td className="px-4 py-2 whitespace-nowrap">{reservation.chauffeur ? 'Yes' : 'No'}</td>
                                 {showActions ? (
-                                    <td className="px-4 py-2 whitespace-nowrap">
-                                        <button onClick={() => updateStatus(reservation._id, 'confirmer')} className="mr-2 bg-[#00B74A] text-white rounded-full text-xs px-2 py-1">Confirm</button>
-                                        <button onClick={() => updateStatus(reservation._id, 'annuler')} className="mr-2 bg-[#F93154] text-white rounded-full text-xs px-2 py-1">Cancel</button>
-                                        <button onClick={() => updateStatus(reservation._id, 'en Attent')} className="bg-[#FFA900] text-white rounded-full text-xs px-2 py-1">Schedule</button>
-                                    </td>
+                                    reservation.status === 'confirmer' && reservation.statusPaiement === 'payee' ? (
+                                        <td className="px-4 py-2 whitespace-nowrap text-gray-500">Already paid</td>
+                                    ) : (
+                                        <td className="px-4 py-2 whitespace-nowrap">
+                                            <button onClick={() => updateStatus(reservation._id, 'confirmer')} className="mr-2 bg-[#00B74A] text-white rounded-full text-xs px-2 py-1">Confirm</button>
+                                            <button onClick={() => updateStatus(reservation._id, 'annuler')} className="mr-2 bg-[#F93154] text-white rounded-full text-xs px-2 py-1">Cancel</button>
+                                            <button onClick={() => updateStatus(reservation._id, 'en Attent')} className="bg-[#FFA900] text-white rounded-full text-xs px-2 py-1">Schedule</button>
+                                        </td>
+                                    )
                                 ) : (
                                     <td className="px-4 py-2 whitespace-nowrap">{reservation.status}</td>
                                 )}

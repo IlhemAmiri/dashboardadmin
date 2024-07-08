@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faEnvelope, faMapMarkerAlt, faPhone, faBirthdayCake, faIdCard, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import SideNavbar from '../../components/SideNavbar';
 
 const UserDetailsPage = () => {
@@ -61,40 +63,47 @@ const UserDetailsPage = () => {
     return (
         <div className="flex flex-col md:flex-row bg-white min-h-screen">
             <SideNavbar />
-            <div className="flex-1 ml-0 md:ml-60 py-8 px-6 transition-all duration-300">
+            <div className="flex-1 ml-0 md:ml-60 py-10 px-8 transition-all duration-300">
                 {userData && (
-                    <div>
-                        <h1 className="text-2xl font-bold mb-4">User Details</h1>
-                        <div className="flex flex-col items-center">
+                    <div className="w-full max-w-4xl mx-auto rounded-lg p-8">
+                        <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Fiche Client</h1>
+                        <div className="flex flex-col items-center md:flex-row md:items-start md:space-x-24">
                             {userData.image && (
                                 <img
                                     src={userData.image}
                                     alt="User"
-                                    className="w-32 h-32 rounded-full mb-4 border-4 border-gray-200"
+                                    className="w-40 h-50 rounded-full mb-6 md:mb-0 border-4 border-gray-300 shadow-sm"
                                 />
                             )}
-                            <div className="w-full">
-                                <p className="text-lg mb-2">
-                                    <strong className="font-semibold">Full Name:</strong> {userData.nom} {userData.prenom}
-                                </p>
-                                <p className="text-lg mb-2">
-                                    <strong className="font-semibold">Email:</strong> {userData.email}
-                                </p>
-                                <p className="text-lg mb-2">
-                                    <strong className="font-semibold">Address:</strong> {userData.adresse}
-                                </p>
-                                <p className="text-lg mb-2">
-                                    <strong className="font-semibold">Phone Number:</strong> {userData.numTel}
-                                </p>
-                                <p className="text-lg mb-2">
-                                    <strong className="font-semibold">Date of Birth:</strong> {new Date(userData.dateNaissance).toLocaleDateString()}
-                                </p>
-                                <p className="text-lg mb-2">
-                                    <strong className="font-semibold">Driver's License Number:</strong> {userData.numPermisConduire}
-                                </p>
-                                <p className="text-lg mb-2">
-                                    <strong className="font-semibold">License Expiration Date:</strong> {new Date(userData.dateExpirationPermis).toLocaleDateString()}
-                                </p>
+                            <div className="w-full space-y-6">
+                                <div className="flex items-center text-xl mb-4">
+                                    <FontAwesomeIcon icon={faUser} className="text-gray-700 mr-4" />
+                                    <p><strong className="font-semibold text-gray-700">Nom complet:</strong> {userData.nom} {userData.prenom}</p>
+                                </div>
+                                <div className="flex items-center text-xl mb-4">
+                                    <FontAwesomeIcon icon={faEnvelope} className="text-gray-700 mr-4" />
+                                    <p><strong className="font-semibold text-gray-700">Email:</strong> {userData.email}</p>
+                                </div>
+                                <div className="flex items-center text-xl mb-4">
+                                    <FontAwesomeIcon icon={faMapMarkerAlt} className="text-gray-700 mr-4" />
+                                    <p><strong className="font-semibold text-gray-700">Adresse:</strong> {userData.adresse}</p>
+                                </div>
+                                <div className="flex items-center text-xl mb-4">
+                                    <FontAwesomeIcon icon={faPhone} className="text-gray-700 mr-4" />
+                                    <p><strong className="font-semibold text-gray-700">Numéro de téléphone:</strong> {userData.numTel}</p>
+                                </div>
+                                <div className="flex items-center text-xl mb-4">
+                                    <FontAwesomeIcon icon={faBirthdayCake} className="text-gray-700 mr-4" />
+                                    <p><strong className="font-semibold text-gray-700">Date de naissance:</strong> {new Date(userData.dateNaissance).toLocaleDateString()}</p>
+                                </div>
+                                <div className="flex items-center text-xl mb-4">
+                                    <FontAwesomeIcon icon={faIdCard} className="text-gray-700 mr-4" />
+                                    <p><strong className="font-semibold text-gray-700">Numéro de permis de conduire:</strong> {userData.numPermisConduire}</p>
+                                </div>
+                                <div className="flex items-center text-xl mb-4">
+                                    <FontAwesomeIcon icon={faCalendarAlt} className="text-gray-700 mr-4" />
+                                    <p><strong className="font-semibold text-gray-700">Date d'expiration du permis:</strong> {new Date(userData.dateExpirationPermis).toLocaleDateString()}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
