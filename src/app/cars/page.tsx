@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { FaArrowUp } from 'react-icons/fa';
+import { FaArrowUp, FaHistory } from 'react-icons/fa';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -40,7 +40,7 @@ const Page = () => {
             router.push('/');
         }
     }, [router]);
-    
+
     useEffect(() => {
         const fetchFavourites = async () => {
             const clientId = localStorage.getItem('userId');
@@ -158,7 +158,12 @@ const Page = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
                     {cars.map((car) => (
-                        <div key={car._id} className="bg-white shadow-lg rounded-lg overflow-hidden">
+                        <div key={car._id} className="bg-white rounded-lg shadow-md mb-20 transition-transform transform hover:scale-105 min-h-[300px] max-h-[425px]">
+                            <Link href={`/history/${car._id}`}>
+                                <div className="absolute top-1 right-1 p-2 bg-[#1ECB15] text-white rounded-full">
+                                    <FaHistory size={20} />
+                                </div>
+                            </Link>
                             <img src={car.image} alt={car.modele} className="w-full h-48 object-cover" />
                             <div className="p-4">
                                 <h3 className="font-dm-sans text-[18px] font-bold leading-[21.6px]">{car.marque} {car.modele}</h3>

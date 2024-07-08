@@ -77,8 +77,9 @@ const AllReservationPage = () => {
         return (
             <div className="overflow-x-auto">
                 <table className="min-w-full bg-white border border-gray-300 rounded-lg">
-                    <thead className="bg-gray-500 text-white text-sm">
+                    <thead className="bg-gray-500 text-white text-[13px]">
                         <tr>
+                            <th className="px-2 py-2 text-left">#</th>
                             <th className="px-4 py-2 text-left">Client</th>
                             <th className="px-4 py-2 text-left">Car</th>
                             <th className="px-4 py-2 text-left">Pick Up Location</th>
@@ -91,8 +92,9 @@ const AllReservationPage = () => {
                         </tr>
                     </thead>
                     <tbody className="text-sm divide-y divide-gray-200">
-                        {filteredReservations.map(reservation => (
+                        {filteredReservations.map((reservation, index) => (
                             <tr key={reservation._id} className="hover:bg-gray-100">
+                                <td className="px-2 py-2 whitespace-nowrap">{index + 1}</td>
                                 <td className="px-4 py-2 whitespace-nowrap flex items-center">
                                     <img src={reservation.idClient.image} alt="Profile" className="rounded-full w-6 h-6 mr-2" />
                                     <Link href={`/user/${reservation.idClient._id}`}>
