@@ -61,7 +61,7 @@ const ProfilePage = () => {
             <SideNavbar />
             <div className="flex-1 ml-0 md:ml-60 py-8 px-4 transition-all duration-300">
                 <div className="container mx-auto py-8 px-4">
-                    <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">Admin Profiles</h2>
+                    <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">Admin Profile</h2>
                     {admins.map(admin => (
                         <div key={admin._id} className="flex flex-col md:flex-row items-center bg-transparent py-8 mb-12">
                             <div className="w-full md:w-1/3 flex justify-center mb-4 md:mb-0">

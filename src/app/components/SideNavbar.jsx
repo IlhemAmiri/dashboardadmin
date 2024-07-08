@@ -30,10 +30,13 @@ function SideNavbar() {
             <Disclosure.Button className="absolute top-4 right-4 inline-flex items-center justify-center rounded-md p-2 text-gray-800 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group md:hidden">
               <GiHamburgerMenu className="block h-6 w-6" aria-hidden="true" />
             </Disclosure.Button>
-            <div className={`p-6 w-1/2 h-screen bg-green-50 z-20 fixed top-0 transition-transform duration-200 transform ${open ? 'left-0' : '-left-full'} md:left-0 md:w-60 shadow-lg transform`} style={{ boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 6px rgba(0, 0, 0, 0.23)' }}>
-            <div className="flex flex-col justify-start items-center">
+            <div className={`p-6 w-1/2 h-screen z-20 fixed top-0 transition-transform duration-200 transform ${open ? 'left-0' : '-left-full'} md:left-0 md:w-60 shadow-lg`} style={{
+              background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)',
+              boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 6px rgba(0, 0, 0, 0.23)',
+            }}>
+              <div className="flex flex-col justify-start items-center">
                 <img src="/images/logo2.png" alt="Logo" className="w-32 mb-4" />
-                <div className="my-4 border-b border-gray-100 pb-4 w-full">
+                <div className="my-4 border-b border-gray-300 pb-4 w-full">
                   <NavItem href="/dashboard" icon={<MdOutlineSpaceDashboard />} label="Dashboard" />
                   <NavItem href="/profile" icon={<CgProfile />} label="Profile" />
                   <NavItem href="/booking" icon={<FaRegComments />} label="Booking" />
@@ -44,7 +47,7 @@ function SideNavbar() {
                   <NavItem href="/facturation" icon={<RiBillLine />} label="Facturation" />
                 </div>
                 <div className="my-4 w-full">
-                  <div onClick={handleLogout} className="flex mb-2 justify-start items-center gap-4 pl-5 border border-gray-200 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
+                  <div onClick={handleLogout} className="flex mb-2 justify-start items-center gap-4 pl-5 border border-gray-300 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                     <MdOutlineLogout className="text-2xl text-gray-600 group-hover:text-white" />
                     <h3 className="text-base text-gray-800 group-hover:text-white font-semibold">Logout</h3>
                   </div>
