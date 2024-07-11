@@ -21,6 +21,7 @@ interface SocialMedia {
     lienYoutube?: string;
     lienPinterest?: string;
     lienInstagram?: string;
+    lienLinkedin?: string;
     localisation?: string;
 }
 
@@ -35,6 +36,7 @@ const ProfilePage: React.FC = () => {
         lienYoutube: '',
         lienPinterest: '',
         lienInstagram: '',
+        lienLinkedin: '',
         localisation: ''
     });
     const [isMounted, setIsMounted] = useState(false);
@@ -138,6 +140,7 @@ const ProfilePage: React.FC = () => {
                 lienYoutube: '',
                 lienPinterest: '',
                 lienInstagram: '',
+                lienLinkedin: '',
                 localisation: ''
             });
             setMessage('Social media information deleted successfully.');
@@ -252,6 +255,15 @@ const ProfilePage: React.FC = () => {
                                 type="text"
                                 value={socialMedia?.lienInstagram || ''}
                                 onChange={(e) => setSocialMedia({ ...socialMedia, lienInstagram: e.target.value })}
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-700 text-sm font-bold mb-2">Linkedin Link:</label>
+                            <input
+                                type="text"
+                                value={socialMedia?.lienLinkedin || ''}
+                                onChange={(e) => setSocialMedia({ ...socialMedia, lienLinkedin: e.target.value })}
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             />
                         </div>
