@@ -43,7 +43,7 @@ const Page = () => {
       localStorage.setItem('role', data.role);
       localStorage.setItem('isAuth', 'true');
       localStorage.setItem('userId', data.userId);
-      router.push('/consumers');
+      router.push('/dashboard');
     } catch (error) {
       setError('Invalid credentials');
     }

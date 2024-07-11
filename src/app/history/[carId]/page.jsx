@@ -4,7 +4,6 @@ import { useRouter, useParams } from 'next/navigation';
 import axios from 'axios';
 import SideNavbar from '../../components/SideNavbar';
 
-
 const CarReservationHistory = () => {
     const router = useRouter();
     const { carId } = useParams();
@@ -49,6 +48,51 @@ const CarReservationHistory = () => {
     if (!isMounted || !isAdmin) {
         return null;
     }
+
+    const now = new Date();
+    const confirmedPaidReservations = reservations.filter(reservation => reservation.status === 'confirmer' && reservation.statusPaiement === 'payee' && new Date(reservation.dateDebut) >= now);
+    const confirmedUnpaidReservations = reservations.filter(reservation => reservation.status === 'confirmer' && reservation.statusPaiement !== 'payee' && new Date(reservation.dateDebut) >= now);
+    const pendingReservations = reservations.filter(reservation => reservation.status === 'en Attent' && new Date(reservation.dateDebut) >= now);
+    const cancelledReservations = reservations.filter(reservation => reservation.status === 'annuler' && new Date(reservation.dateDebut) >= now);
+    const pastReservations = reservations.filter(reservation => new Date(reservation.dateDebut) < now);
+
+    const ReservationTable = ({ title, data }) => (
+        <div className="overflow-x-auto mb-8">
+            <h2 className="text-xl font-bold mb-4">{title}</h2>
+            <table className="min-w-full bg-white border rounded-lg overflow-hidden">
+                <thead className="bg-gray-200">
+                    <tr>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Start Date</th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">End Date</th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Rate</th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Driver</th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pickup Location</th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Destination</th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Comment</th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Status</th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                    </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                    {data.map((reservation, index) => (
+                        <tr key={reservation._id} className="hover:bg-gray-100">
+                            <td className="py-3 px-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
+                            <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{new Date(reservation.dateDebut).toLocaleDateString()}</td>
+                            <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{new Date(reservation.dateFin).toLocaleDateString()}</td>
+                            <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.tarifTotale} $</td>
+                            <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.chauffeur ? "Yes" : "No"}</td>
+                            <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.lieuRamassage}</td>
+                            <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.destination}</td>
+                            <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.commentaire}</td>
+                            <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.statusPaiement}</td>
+                            <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.idClient.nom} {reservation.idClient.prenom}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 
     return (
         <div className="flex flex-col md:flex-row bg-white min-h-screen">
@@ -118,44 +162,12 @@ const CarReservationHistory = () => {
                         </h1>
                     </div>
                 )}
-                {reservations.length > 0 ? (
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border rounded-lg overflow-hidden">
-                            <thead className="bg-gray-200">
-                                <tr>
-                                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
-                                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Start Date</th>
-                                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">End Date</th>
-                                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Rate</th>
-                                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Driver</th>
-                                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pickup Location</th>
-                                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Destination</th>
-                                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Comment</th>
-                                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Status</th>
-                                    <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {reservations.map((reservation, index) => (
-                                    <tr key={reservation._id} className="hover:bg-gray-100">
-                                        <td className="py-3 px-4 whitespace-nowrap text-sm font-medium text-gray-900">{index + 1}</td>
-                                        <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{new Date(reservation.dateDebut).toLocaleDateString()}</td>
-                                        <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{new Date(reservation.dateFin).toLocaleDateString()}</td>
-                                        <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.tarifTotale} $</td>
-                                        <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.chauffeur ? "Yes" : "No"}</td>
-                                        <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.lieuRamassage}</td>
-                                        <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.destination}</td>
-                                        <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.commentaire}</td>
-                                        <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.statusPaiement}</td>
-                                        <td className="py-3 px-4 whitespace-nowrap text-sm text-gray-500">{reservation.idClient.nom} {reservation.idClient.prenom}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                ) : (
-                    <p>No reservations found for this car.</p>
-                )}
+                {confirmedPaidReservations.length > 0 && <ReservationTable title="Confirmed Reservations - Paid" data={confirmedPaidReservations} />}
+                {confirmedUnpaidReservations.length > 0 && <ReservationTable title="Confirmed Reservations - Unpaid" data={confirmedUnpaidReservations} />}
+                {pendingReservations.length > 0 && <ReservationTable title="Pending Reservations" data={pendingReservations} />}
+                {cancelledReservations.length > 0 && <ReservationTable title="Cancelled Reservations" data={cancelledReservations} />}
+                {pastReservations.length > 0 && <ReservationTable title="Past Reservations" data={pastReservations} />}
+                {reservations.length === 0 && <p>No reservations found for this car.</p>}
             </div>
         </div>
     );
