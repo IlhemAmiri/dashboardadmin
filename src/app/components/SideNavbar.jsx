@@ -38,13 +38,13 @@ function SideNavbar() {
                 <img src="/images/logo2.png" alt="Logo" className="w-32 mb-4" />
                 <div className="my-4 border-b border-gray-300 pb-4 w-full">
                   <NavItem href="/dashboard" icon={<MdOutlineSpaceDashboard />} label="Dashboard" />
-                  <NavItem href="/profile" icon={<CgProfile />} label="Profile" />
                   <NavItem href="/booking" icon={<FaRegComments />} label="Booking" />
                   <NavItem href="/consumers" icon={<BiMessageSquareDots />} label="Consumers" />
                   <NavItem href="/cars" icon={<AiOutlineCar />} label="Cars" />
                   <NavItem href="/blogs" icon={<BsFillFileTextFill />} label="Blogs" />
                   <NavItem href="/faq" icon={<AiOutlineQuestionCircle />} label="FAQs" />
                   <NavItem href="/facturation" icon={<RiBillLine />} label="Facturation" />
+                  <NavItem href="/profile" icon={<CgProfile />} label="Profile" />
                 </div>
                 <div className="my-4 w-full">
                   <div onClick={handleLogout} className="flex mb-2 justify-start items-center gap-4 pl-5 border border-gray-300 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">

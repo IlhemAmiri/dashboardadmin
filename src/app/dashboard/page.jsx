@@ -4,24 +4,26 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Bar, Pie } from 'react-chartjs-2';
 import SideNavbar from '../components/SideNavbar';
-import { 
-    Chart as ChartJS, 
-    CategoryScale, 
-    LinearScale, 
-    BarElement, 
-    Title, 
-    Tooltip, 
-    Legend, 
-    ArcElement 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTachometerAlt, faGasPump, faDoorOpen, faCouch, faCar } from '@fortawesome/free-solid-svg-icons';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ArcElement
 } from 'chart.js';
 
 ChartJS.register(
-    CategoryScale, 
-    LinearScale, 
-    BarElement, 
-    Title, 
-    Tooltip, 
-    Legend, 
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
     ArcElement
 );
 
@@ -157,60 +159,74 @@ const Dashboard = () => {
                         <Bar data={barData} />
                     </div>
                     {topOneCar && (
-                        <div className="bg-white shadow-lg rounded-lg p-8">
-                            <h2 className="text-2xl font-extrabold mb-6 text-gray-800">Top Reserved Car</h2>
-                            <div className="flex flex-col md:flex-row items-center">
-                                <img 
-                                    src={topOneCar.image} 
-                                    alt={topOneCar.marque} 
-                                    className="w-48 h-48 object-cover rounded-lg shadow-md" 
-                                />
-                                <div className="ml-0 md:ml-6 mt-6 md:mt-0">
-                                    <h3 className="text-3xl font-bold text-gray-800">
+                        <div className="bg-white shadow-md rounded-lg p-8">
+                            <h2 className="text-xl font-bold mb-4 text-gray-800">Most Popular Car of the Month!</h2>
+                            <div className="flex flex-col md:flex-row">
+                                <div className="flex flex-col w-full md:w-2/5 items-center">
+                                    <h3 className="text-3xl font-bold text-gray-800 text-center">
                                         {topOneCar.marque} {topOneCar.modele}
                                     </h3>
-                                    <p className="text-lg text-gray-600 mt-2">Year: {topOneCar.anneeFabrication}</p>
-                                    <p className="text-lg text-gray-600 mt-2">Asking Price: ${topOneCar.prixParJ} USD</p>
-                                    <div className="grid grid-cols-2 gap-4 mt-4">
-                                        <div className="flex flex-col items-center">
-                                            <div className="bg-violet-200 p-4 rounded-lg shadow-md">
-                                                <span className="block text-sm font-semibold text-gray-700">Kilometrage</span>
+                                    <p className="text-lg text-gray-600 mt-2 text-center">Model: {topOneCar.anneeFabrication}</p>
+                                    <img
+                                        src={topOneCar.image}
+                                        alt={topOneCar.marque}
+                                        className="w-[80%] h-[80%] object-cover rounded-xl shadow-lg mt-4 "
+                                    />
+                                    <p className="text-lg text-gray-600 mt-4 text-center">Asking Price:<br />{topOneCar.prixParJ}  $</p>
+                                </div>
+                                <div className="flex flex-col w-full md:w-1/2 mt-6 md:mt-0 md:ml-6">
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <div className="bg-violet-100 p-6 rounded-2xl shadow-lg ">
+                                            <FontAwesomeIcon icon={faTachometerAlt} className="text-violet-600 mr-3" />
+                                            <div>
+                                                <span className="block text-sm text-gray-700">Kilometrage</span>
                                                 <span className="text-lg font-bold text-gray-800">{topOneCar.kilometrage}</span>
                                             </div>
                                         </div>
-                                        <div className="flex flex-col items-center">
-                                            <div className="bg-blue-200 p-4 rounded-lg shadow-md">
-                                                <span className="block text-sm font-semibold text-gray-700">Fuel</span>
+                                        <div className="bg-blue-100 p-6 rounded-2xl shadow-lg ">
+                                            <FontAwesomeIcon icon={faGasPump} className="text-blue-600 mr-3" />
+                                            <div>
+                                                <span className="block text-sm text-gray-700">Fuel</span>
                                                 <span className="text-lg font-bold text-gray-800">{topOneCar.typeCarburant}</span>
                                             </div>
                                         </div>
-                                        <div className="flex flex-col items-center">
-                                            <div className="bg-yellow-200 p-4 rounded-lg shadow-md">
-                                                <span className="block text-sm font-semibold text-gray-700">Doors</span>
+                                        <div className="bg-yellow-100 p-6 rounded-2xl shadow-lg ">
+                                            <FontAwesomeIcon icon={faDoorOpen} className="text-yellow-600 mr-3" />
+                                            <div>
+                                                <span className="block text-sm text-gray-700">Doors</span>
                                                 <span className="text-lg font-bold text-gray-800">{topOneCar.NbPortes}</span>
                                             </div>
                                         </div>
-                                        <div className="flex flex-col items-center">
-                                            <div className="bg-pink-200 p-4 rounded-lg shadow-md">
-                                                <span className="block text-sm font-semibold text-gray-700">Seats</span>
+                                        <div className="bg-pink-100 p-6 rounded-2xl shadow-lg ">
+                                            <FontAwesomeIcon icon={faCouch} className="text-pink-600 mr-3" />
+                                            <div>
+                                                <span className="block text-sm text-gray-700">Seats</span>
                                                 <span className="text-lg font-bold text-gray-800">{topOneCar.NbPlaces}</span>
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="flex bg-green-100 p-6 rounded-2xl shadow-lg mt-6 items-center">
+                                        <FontAwesomeIcon icon={faCar} className="text-green-600 mr-3" />
+                                        <div className="ml-3">
+                                            <span className="block text-sm font-semibold text-gray-700">Total Runs</span>
+                                            <span className="text-lg font-bold text-gray-800">500</span>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
                     )}
                     <div className="bg-white shadow-md rounded-lg p-6">
-                        <h2 className="text-xl font-bold mb-4 text-gray-800">Payment Status</h2>
+                        <h2 className="text-xl font-bold mb-4 text-gray-800">Payment Status Overview</h2>
                         <Pie data={pieData} />
                     </div>
                     {topThreeCars.length > 0 && (
                         <div className="bg-white shadow-md rounded-lg p-6 max-h-[450px]">
-                            <h2 className="text-xl font-bold mb-4 text-gray-800">Top 3 Reserved Cars</h2>
-                            <table className="min-w-full bg-white">
+                            <h2 className="text-xl font-bold mb-4">Top 3 Customer-Favorite Cars!</h2>
+                            <table className="min-w-full bg-white rounded-2xl overflow-hidden">
                                 <thead>
-                                    <tr>
+                                    <tr className="bg-gradient-to-r from-green-400 to-green-700 text-white">
                                         <th className="py-2">Image</th>
                                         <th className="py-2">Car</th>
                                         <th className="py-2">Price</th>
@@ -219,15 +235,15 @@ const Dashboard = () => {
                                 <tbody>
                                     {topThreeCars.map((car, index) => (
                                         <tr key={index} className="border-t">
-                                            <td className="py-2">
-                                                <img 
-                                                    src={car.image} 
-                                                    alt={car.marque} 
-                                                    className="w-20 h-20 object-cover rounded-full shadow-md" 
+                                            <td className="py-2 flex justify-center items-center">
+                                                <img
+                                                    src={car.image}
+                                                    alt={car.marque}
+                                                    className="w-20 h-20 object-cover rounded-full shadow-md"
                                                 />
                                             </td>
-                                            <td className="py-2">{car.marque} {car.modele}</td>
-                                            <td className="py-2">${car.prixParJ} USD</td>
+                                            <td className="py-2 text-center">{car.marque} {car.modele}</td>
+                                            <td className="py-2 text-center">{car.prixParJ} $</td>
                                         </tr>
                                     ))}
                                 </tbody>
