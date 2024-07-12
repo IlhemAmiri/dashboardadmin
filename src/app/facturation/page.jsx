@@ -14,6 +14,10 @@ const AllReservationPage = () => {
     const [isAuth, setIsAuth] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(false);
 
+    const [currentPagePaid, setCurrentPagePaid] = useState(1);
+    const [currentPageUnpaid, setCurrentPageUnpaid] = useState(1);
+    const itemsPerPage = 5;
+
     const router = useRouter();
 
     useEffect(() => {
@@ -62,6 +66,17 @@ const AllReservationPage = () => {
 
     const totalTarifTotale = payeeReservations.reduce((total, reservation) => total + reservation.tarifTotale, 0);
 
+    const indexOfLastPaid = currentPagePaid * itemsPerPage;
+    const indexOfFirstPaid = indexOfLastPaid - itemsPerPage;
+    const currentPaidReservations = payeeReservations.slice(indexOfFirstPaid, indexOfLastPaid);
+
+    const indexOfLastUnpaid = currentPageUnpaid * itemsPerPage;
+    const indexOfFirstUnpaid = indexOfLastUnpaid - itemsPerPage;
+    const currentUnpaidReservations = nonPayeeReservations.slice(indexOfFirstUnpaid, indexOfLastUnpaid);
+
+    const paginatePaid = (pageNumber) => setCurrentPagePaid(pageNumber);
+    const paginateUnpaid = (pageNumber) => setCurrentPageUnpaid(pageNumber);
+
     return (
         <div className="flex flex-col md:flex-row bg-white min-h-screen">
             <SideNavbar />
@@ -88,9 +103,9 @@ const AllReservationPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {payeeReservations.map((reservation, index) => (
+                                {currentPaidReservations.map((reservation, index) => (
                                     <tr key={reservation._id}>
-                                        <td className="border px-4 py-2">{index + 1}</td>
+                                        <td className="border px-4 py-2">{indexOfFirstPaid + index + 1}</td>
                                         <td className="border px-4 py-2 flex items-center">
                                             <img src={reservation.idClient.image} alt="Profile" className="rounded-full w-6 h-6 mr-2" />
                                             <Link href={`/user/${reservation.idClient._id}`}>
@@ -116,6 +131,12 @@ const AllReservationPage = () => {
                                 ))}
                             </tbody>
                         </table>
+                        <Pagination
+                            itemsPerPage={itemsPerPage}
+                            totalItems={payeeReservations.length}
+                            paginate={paginatePaid}
+                            currentPage={currentPagePaid}
+                        />
                     </div>
                 </div>
                 <div className="mt-8">
@@ -136,9 +157,9 @@ const AllReservationPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {nonPayeeReservations.map((reservation, index) => (
+                                {currentUnpaidReservations.map((reservation, index) => (
                                     <tr key={reservation._id}>
-                                        <td className="border px-4 py-2">{index + 1}</td>
+                                        <td className="border px-4 py-2">{indexOfFirstUnpaid + index + 1}</td>
                                         <td className="border px-4 py-2 flex items-center">
                                             <img src={reservation.idClient.image} alt="Profile" className="rounded-full w-6 h-6 mr-2" />
                                             <Link href={`/user/${reservation.idClient._id}`}>
@@ -158,10 +179,40 @@ const AllReservationPage = () => {
                                 ))}
                             </tbody>
                         </table>
+                        <Pagination
+                            itemsPerPage={itemsPerPage}
+                            totalItems={nonPayeeReservations.length}
+                            paginate={paginateUnpaid}
+                            currentPage={currentPageUnpaid}
+                        />
                     </div>
                 </div>
             </div>
         </div>
+    );
+};
+
+const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+        pageNumbers.push(i);
+    }
+
+    return (
+        <nav className="mt-4">
+            <ul className="flex justify-center">
+                {pageNumbers.map(number => (
+                    <li key={number} className="mx-1">
+                        <button
+                            onClick={() => paginate(number)}
+                            className={`px-3 py-1 border rounded ${currentPage === number ? 'bg-white text-blue-600 ' : 'bg-white text-gray-900'}`}
+                        >
+                            {number}
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </nav>
     );
 };
 
