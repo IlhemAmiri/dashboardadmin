@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import SideNavbar from '../components/SideNavbar';
-
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 const Signup = () => {
     const [formData, setFormData] = useState({
         email: '',
@@ -36,6 +37,10 @@ const Signup = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+    };
+    const handlePhoneChange = (value) => {
+        const formattedValue = value.startsWith('+') ? value : `+${value}`;
+        setFormData({ ...formData, numTel: formattedValue });
     };
 
     const handleFileChange = (e) => {
@@ -169,15 +174,31 @@ const Signup = () => {
                         </div>
                         <div className="mb-4">
                             <label htmlFor="numTel" className="block text-sm font-medium text-gray-700">Phone Number</label>
-                            <input
-                                type="text"
-                                id="numTel"
-                                name="numTel"
-                                value={formData.numTel}
-                                onChange={handleChange}
-                                required
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            />
+                            <div className="mt-1 flex items-center">
+                                <PhoneInput
+                                    country={'tn'} // Définissez ici le pays par défaut souhaité
+                                    value={formData.numTel}
+                                    onChange={handlePhoneChange}
+                                    inputProps={{
+                                        name: 'numTel',
+                                        required: true,
+                                        className: 'block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm',
+                                    }}
+                                    containerStyle={{
+                                        display: 'flex',
+                                        flexDirection: 'row-reverse',
+                                        alignItems: 'center',
+                                        width: '100%',
+                                    }}
+                                    buttonStyle={{
+                                        order: 2,
+                                        marginLeft: '10px',
+                                    }}
+                                    inputStyle={{
+                                        flex: '1',
+                                    }}
+                                />
+                            </div>
                         </div>
                         <div className="mb-4">
                             <label htmlFor="dateNaissance" className="block text-sm font-medium text-gray-700">Date of Birth</label>
@@ -242,8 +263,8 @@ const Signup = () => {
                     </form>
                 </div>
             </div>
-            </div>
-            );
+        </div>
+    );
 };
 
-            export default Signup;
+export default Signup;

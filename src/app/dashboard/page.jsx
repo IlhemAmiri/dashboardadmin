@@ -32,6 +32,7 @@ const Dashboard = () => {
     const [reservations, setReservations] = useState([]);
     const [topOneCar, setTopOneCar] = useState(null);
     const [topThreeCars, setTopThreeCars] = useState([]);
+    const [topCarOfMonth, setTopCarOfMonth] = useState(null);
     const [isMounted, setIsMounted] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
 
@@ -42,6 +43,7 @@ const Dashboard = () => {
         if (role === 'admin') {
             fetchReservations();
             fetchTopReservedCars();
+            fetchTopReservedCarOfMonth();
         } else {
             router.push('/');
         }
@@ -78,6 +80,19 @@ const Dashboard = () => {
             setTopThreeCars(topThreeResponse.data);
         } catch (error) {
             console.error('Failed to fetch top reserved cars', error);
+        }
+    };
+
+    const fetchTopReservedCarOfMonth = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/reservations/top/month', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            setTopCarOfMonth(response.data);
+        } catch (error) {
+            console.error('Failed to fetch top reserved car of the month', error);
         }
     };
 
@@ -160,7 +175,7 @@ const Dashboard = () => {
                     </div>
                     {topOneCar && (
                         <div className="bg-white shadow-md rounded-lg p-8">
-                            <h2 className="text-xl font-bold mb-4 text-gray-800">Most Popular Car of the Month!</h2>
+                            <h2 className="text-xl font-bold mb-4 text-gray-800">Most Popular Car</h2>
                             <div className="flex flex-col md:flex-row">
                                 <div className="flex flex-col w-full md:w-2/5 items-center">
                                     <h3 className="text-3xl font-bold text-gray-800 text-center">
@@ -170,7 +185,7 @@ const Dashboard = () => {
                                     <img
                                         src={topOneCar.image}
                                         alt={topOneCar.marque}
-                                        className="w-[80%] h-[80%] object-cover rounded-xl shadow-lg mt-4 "
+                                        className="w-full h-auto object-cover rounded-xl shadow-xl mt-4"
                                     />
                                     <p className="text-lg text-gray-600 mt-4 text-center">Asking Price:<br />{topOneCar.prixParJ}  $</p>
                                 </div>
@@ -212,11 +227,77 @@ const Dashboard = () => {
                                             <span className="text-lg font-bold text-gray-800">500</span>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     )}
+                    {topCarOfMonth && (
+                        <div className="bg-white shadow-md rounded-lg p-8">
+                            <h2 className="text-xl font-bold mb-4 text-gray-800">
+                                        Spotlight on Excellence: <span className='text-[#1ECB15]'> {topCarOfMonth.marque} {topCarOfMonth.modele} </span>, Our Featured Car of the Month
+                                        </h2>
+                            <div className="flex flex-col md:flex-row">
+                                <div className="md:w-1/2">
+                                    <img
+                                        src={topCarOfMonth.image}
+                                        alt={topCarOfMonth.marque}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <div className="md:w-1/2 p-8 flex flex-col justify-between">
+                                    <div>
+                                        
+                                        <p className="text-lg text-gray-700 mb-4">
+                                            Model Year: {topCarOfMonth.anneeFabrication}
+                                        </p>
+                                        <p className="text-lg text-gray-700 mb-4">
+                                            Price: {topCarOfMonth.prixParJ} $/day
+                                        </p>
+                                    </div>
+                                    <div className="mt-6 space-y-4">
+                                        <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-sm">
+                                            <FontAwesomeIcon icon={faTachometerAlt} className="text-purple-600 text-2xl mr-4" />
+                                            <div>
+                                                <span className="block text-sm text-gray-500">Kilometrage</span>
+                                                <span className="text-xl font-bold text-gray-800">{topCarOfMonth.kilometrage} km</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-sm">
+                                            <FontAwesomeIcon icon={faGasPump} className="text-blue-600 text-2xl mr-4" />
+                                            <div>
+                                                <span className="block text-sm text-gray-500">Fuel</span>
+                                                <span className="text-xl font-bold text-gray-800">{topCarOfMonth.typeCarburant}</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-sm">
+                                            <FontAwesomeIcon icon={faDoorOpen} className="text-yellow-600 text-2xl mr-4" />
+                                            <div>
+                                                <span className="block text-sm text-gray-500">Doors</span>
+                                                <span className="text-xl font-bold text-gray-800">{topCarOfMonth.NbPortes}</span>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center p-4 bg-gray-50 rounded-lg shadow-sm">
+                                            <FontAwesomeIcon icon={faCouch} className="text-pink-600 text-2xl mr-4" />
+                                            <div>
+                                                <span className="block text-sm text-gray-500">Seats</span>
+                                                <span className="text-xl font-bold text-gray-800">{topCarOfMonth.NbPlaces}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="mt-6 flex items-center justify-center p-4 bg-gray-50 rounded-lg shadow-sm">
+                                        <FontAwesomeIcon icon={faCar} className="text-green-600 text-2xl mr-4" />
+                                        <div>
+                                            <span className="block text-sm text-gray-500">Total Runs</span>
+                                            <span className="text-xl font-bold text-gray-800">500</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+
+
                     <div className="bg-white shadow-md rounded-lg p-6">
                         <h2 className="text-xl font-bold mb-4 text-gray-800">Payment Status Overview</h2>
                         <Pie data={pieData} />
