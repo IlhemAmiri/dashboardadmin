@@ -10,7 +10,7 @@ const UpdateCarPage = () => {
     const [typeCarburant, setTypeCarburant] = useState('essence');
     const [typeTransmission, setTypeTransmission] = useState('manuelle');
     const [vehicleType, setVehicleType] = useState('Car');
-    const [categorie, setCategorie] = useState('compacte');
+    const [categorie, setCategorie] = useState('Compact');
     const [disponibilite, setDisponibilite] = useState('disponible');
     const [kilometrage, setKilometrage] = useState<number>(0);
     const [NbPlaces, setNbPlaces] = useState<number>(4);

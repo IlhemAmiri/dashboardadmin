@@ -81,8 +81,13 @@ const AllReservationPage = () => {
         <div className="flex flex-col md:flex-row bg-white min-h-screen">
             <SideNavbar />
             <div className="flex-1 ml-0 md:ml-60 py-8 px-4 transition-all duration-300">
-                <div className="mb-8">
+            <div className="mb-8 flex justify-between">
                     <h1 className="text-2xl font-bold">Total Paid Reservations: {totalTarifTotale} $</h1>
+                    <Link href="/ConfirmPayment">
+                        <button className=" text-green-400 px-4 py-2 rounded">
+                            Confirm Cash Payments
+                        </button>
+                    </Link>
                 </div>
                 <div>
                     <h2 className="text-xl font-semibold mb-4">Confirmed and Paid Reservations</h2>
