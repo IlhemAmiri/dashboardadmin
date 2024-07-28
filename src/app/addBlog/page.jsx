@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import SideNavbar from '../components/SideNavbar';
-
+import AddBlogForm from '../components/AddBlogForm';
 
 const AddBlogPage = () => {
     const [title, setTitle] = useState('');
@@ -87,92 +87,20 @@ const AddBlogPage = () => {
                 <div className="flex flex-col items-center justify-center flex-1 my-16">
                     <div className="w-full max-w-3xl bg-white rounded-lg shadow-lg p-10">
                         <h2 className="text-gray-800 font-semibold text-2xl mb-6">Add Blog</h2>
-                        {error && <p className="text-red-500">{error}</p>}
-                        <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit}>
-                            <div className="col-span-1 md:col-span-2">
-                                <label className="block text-gray-700">Title</label>
-                                <input
-                                    type="text"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                                    required
-                                />
-                            </div>
-                            {/* <div className="col-span-2">
-            <label className="block text-gray-700">Date</label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-              required
-            />
-          </div> */}
-                            <div className="col-span-1 md:col-span-2">
-                                <label className="block text-gray-700">Category</label>
-                                <input
-                                    type="text"
-                                    value={category}
-                                    onChange={(e) => setCategory(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                                    required
-                                />
-                            </div>
-                            <div className="col-span-1 md:col-span-2">
-                                <label className="block text-gray-700">Summary</label>
-                                <textarea
-                                    value={summary}
-                                    onChange={(e) => setSummary(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                                    required
-                                ></textarea>
-                            </div>
-                            <div className="col-span-1 md:col-span-2">
-                                <label className="block text-gray-700">Image</label>
-                                <input
-                                    type="file"
-                                    onChange={(e) => setImage(e.target.files[0])}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                                    required
-                                />
-                            </div>
-                            {content.map((section, index) => (
-                                <div key={index} className="col-span-1 md:col-span-2">
-                                    <label className="block text-gray-700">Section Title</label>
-                                    <input
-                                        type="text"
-                                        value={section.title}
-                                        onChange={(e) => handleContentChange(index, 'title', e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                                    />
-                                    <label className="block text-gray-700">Section Text</label>
-                                    <textarea
-                                        value={section.text}
-                                        onChange={(e) => handleContentChange(index, 'text', e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                                        required
-                                    ></textarea>
-                                </div>
-                            ))}
-                            <div className="col-span-1 md:col-span-2">
-                                <button
-                                    type="button"
-                                    onClick={addContentSection}
-                                    className="w-full bg-[#1ECB15] text-white py-2 px-4 rounded-md hover:bg-[#16A314] transition-colors"
-                                >
-                                    Add Section
-                                </button>
-                            </div>
-                            <div className="col-span-1 md:col-span-2">
-                                <button
-                                    type="submit"
-                                    className="w-full bg-[#1ECB15] text-white py-2 px-4 rounded-md hover:bg-[#16A314] transition-colors"
-                                >
-                                    Add Blog
-                                </button>
-                            </div>
-                        </form>
+                        <AddBlogForm
+                            handleSubmit={handleSubmit}
+                            handleContentChange={handleContentChange}
+                            addContentSection={addContentSection}
+                            error={error}
+                            content={content}
+                            setTitle={setTitle}
+                            setCategory={setCategory}
+                            setSummary={setSummary}
+                            setImage={setImage}
+                            title={title}
+                            category={category}
+                            summary={summary}
+                        />
                     </div>
                 </div>
             </div>

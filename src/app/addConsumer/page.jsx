@@ -69,7 +69,7 @@ const Signup = () => {
 
             const data = await response.json();
             console.log('Registration successful:', data);
-            router.push('/signin');
+            router.push('/consumers');
         } catch (error) {
             console.error('Error during registration:', error);
             setError(error.message || 'Failed to register');
