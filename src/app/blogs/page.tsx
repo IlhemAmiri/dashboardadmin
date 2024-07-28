@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import AllBlogs from '../components/AllBlogs'
+import AllBlogs from '../components/AllBlogs';
 import SideNavbar from '../components/SideNavbar';
 
 interface Blog {
@@ -22,28 +22,37 @@ const PageBlogs = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const blogsPerPage = 12;
     const [totalBlogs, setTotalBlogs] = useState(0);
+    const [isMounted, setIsMounted] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const router = useRouter();
 
+    const fetchBlogs = async (page: number) => {
+        try {
+            const res = await axios.get(`http://localhost:3001/blogs?page=${page}&limit=${blogsPerPage}`);
+            setBlogs(res.data.data);
+            setTotalBlogs(res.data.total);
+        } catch (error) {
+            console.error("Failed to fetch blogs:", error);
+        }
+    };
+
     useEffect(() => {
-        // Fetch blogs from API
-        const fetchBlogs = async (page: number) => {
-            try {
-                const res = await axios.get(`http://localhost:3001/blogs?page=${page}&limit=${blogsPerPage}`);
-                setBlogs(res.data.data);
-                setTotalBlogs(res.data.total);
-            } catch (error) {
-                console.error("Failed to fetch blogs:", error);
-            }
-        };
-
-        fetchBlogs(currentPage);
-
-        // Check authentication status from local storage
+        setIsMounted(true);
+        const role = localStorage.getItem('role');
         const authStatus = localStorage.getItem('isAuth') === 'true';
         setIsAuth(authStatus);
-    }, [currentPage]);
+        setIsAdmin(role === 'admin');
+        if (role !== 'admin') {
+            router.push('/');
+        }
+    }, [router]);
 
+    useEffect(() => {
+        if (isAdmin) {
+            fetchBlogs(currentPage);
+        }
+    }, [currentPage, isAdmin]);
 
     const totalPages = Math.ceil(totalBlogs / blogsPerPage);
     const formatDate = (dateString: string) => {

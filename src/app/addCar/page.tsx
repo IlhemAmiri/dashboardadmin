@@ -38,8 +38,50 @@ const AddCarPage = () => {
         setIsAdmin(role === 'admin');
         if (role !== 'admin') {
             router.push('/');
-        }
+        } setMarque(localStorage.getItem('marque') || '');
+        setModele(localStorage.getItem('modele') || '');
+        setAnneeFabrication(parseInt(localStorage.getItem('anneeFabrication') || '2020'));
+        setTypeCarburant(localStorage.getItem('typeCarburant') || 'essence');
+        setTypeTransmission(localStorage.getItem('typeTransmission') || 'manuelle');
+        setVehicleType(localStorage.getItem('vehicleType') || 'Car');
+        setCategorie(localStorage.getItem('categorie') || 'Compact');
+        setDisponibilite(localStorage.getItem('disponibilite') || 'disponible');
+        setKilometrage(parseInt(localStorage.getItem('kilometrage') || '0'));
+        setNbPlaces(parseInt(localStorage.getItem('NbPlaces') || '4'));
+        setNbPortes(parseInt(localStorage.getItem('NbPortes') || '4'));
+        setClimatisation(localStorage.getItem('climatisation') === 'true');
+        setCaracteristiques(localStorage.getItem('caracteristiques') || '');
+        setAccessoiresOptionSupp(localStorage.getItem('accessoiresOptionSupp') || '');
+        setPrixParJ(parseFloat(localStorage.getItem('prixParJ') || '0'));
+        const authStatus = localStorage.getItem('isAuth') === 'true';
+        setIsAuth(authStatus);
     }, [router]);
+
+    useEffect(() => {
+        if (isMounted) {
+            localStorage.setItem('marque', marque);
+            localStorage.setItem('modele', modele);
+            localStorage.setItem('anneeFabrication', anneeFabrication.toString());
+            localStorage.setItem('typeCarburant', typeCarburant);
+            localStorage.setItem('typeTransmission', typeTransmission);
+            localStorage.setItem('vehicleType', vehicleType);
+            localStorage.setItem('categorie', categorie);
+            localStorage.setItem('disponibilite', disponibilite);
+            localStorage.setItem('kilometrage', kilometrage.toString());
+            localStorage.setItem('NbPlaces', NbPlaces.toString());
+            localStorage.setItem('NbPortes', NbPortes.toString());
+            localStorage.setItem('climatisation', climatisation.toString());
+            localStorage.setItem('caracteristiques', caracteristiques);
+            localStorage.setItem('accessoiresOptionSupp', accessoiresOptionSupp);
+            localStorage.setItem('prixParJ', prixParJ.toString());
+        }
+    }, [
+        marque, modele, anneeFabrication, typeCarburant, typeTransmission,
+        vehicleType, categorie, disponibilite, kilometrage, NbPlaces,
+        NbPortes, climatisation, caracteristiques, accessoiresOptionSupp,
+        prixParJ, isMounted
+    ]);
+
 
     const handleAddCar = async () => {
         if (!isMounted) return;
